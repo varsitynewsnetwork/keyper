@@ -75,6 +75,17 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('brian scaturro', $called);
     }
 
+    public function test_callable_executes_for_array_of_different_key_types()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when(['key1', 'name.last'], function($first, $second) use (&$called) {
+            $called = "$first $second";
+        });
+        $this->assertEquals('hello scaturro', $called);
+    }
+
+
     public function test_callable_executes_for_array_of_keys_even_if_one_missing()
     {
         $keyper = Keyper::create($this->data);
