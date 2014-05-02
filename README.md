@@ -33,7 +33,7 @@ $keyper->when('nested.three.four', function($value) {
 });
 
 //do something with multiple keys
-$keyper->when(['nested.one', 'nested.two', function($one, $two) {
+$keyper->when(['nested.one', 'nested.two'], function($one, $two) {
     //$one = 1
     //$two = 2;
     print $one + $two;
