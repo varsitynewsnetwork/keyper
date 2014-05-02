@@ -22,21 +22,44 @@ class Keyper
         $this->array = $array;
     }
 
+    /**
+     * Execute callable when an array key exists
+     *
+     * @param $key
+     * @param callable $fn
+     * @return $this
+     */
     public function when($key, callable $fn)
     {
+        $args = $this->getArgs($key);
+        if ($args) {
+            call_user_func_array($fn, $args);
+        }
+    }
+
+    /**
+     * @param $key
+     * @param array $values
+     * @return array
+     */
+    protected function getArgs($key, &$values = []) {
+
+        if (is_array($key)) {
+            foreach ($key as $k) {
+                $this->getArgs($k, $values);
+            }
+            return $values;
+        }
+
         if (isset($this->array[$key])) {
-            $fn($this->array[$key]);
-            return $this;
+            $values[] = $this->array[$key];
         }
 
-        $value = static::getValueFromArray($key);
-
-        if ($value) {
-            $value = (is_array($value)) ? $value : [$value];
-            call_user_func_array($fn, $value);
+        if (preg_match(static::$dotNotation, $key)) {
+            $values[] = $this->getValueFromArray($key);
         }
 
-        return $this;
+        return $values;
     }
 
     /**
@@ -49,9 +72,7 @@ class Keyper
         $value = null;
         $data = $this->array;
         foreach ($parts as $k) {
-            if (isset($data[$k])) {
-                $value = $data[$k];
-            }
+            $value = array_key_exists($k, $data) ? $data[$k] : null;
             if (!is_array($value)) {
                 break;
             }

@@ -11,6 +11,17 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
             'three' => [
                 'four' => 5
             ]
+        ],
+        'name' => [
+            'first' => 'brian',
+            'last' => 'scaturro'
+        ],
+        'incompleteName' => [
+            'first' => 'austin'
+        ],
+        'key3.nested' => 'fakeout',
+        'key3' => [
+            'nested' => 'value'
         ]
     ];
 
@@ -52,5 +63,35 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
             $called = $value;
         });
         $this->assertEquals(5, $called);
+    }
+
+    public function test_callable_executes_for_array_of_keys()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when(['name.first', 'name.last'], function($first, $last) use (&$called) {
+            $called = "$first $last";
+        });
+        $this->assertEquals('brian scaturro', $called);
+    }
+
+    public function test_callable_executes_for_array_of_keys_even_if_one_missing()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when(['incompleteName.first', 'incompleteName.last'], function($first, $last) use (&$called) {
+            $called = trim("$first $last");
+        });
+        $this->assertEquals('austin', $called);
+    }
+
+    public function test_when_prefers_literal_key()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when('key3.nested', function($value) use (&$called) {
+            $called = $value;
+        });
+        $this->assertEquals('fakeout', $called);
     }
 }

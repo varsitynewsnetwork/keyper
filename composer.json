@@ -2,7 +2,7 @@
     "name": "vnn/keyper",
     "description": "Do things based on the presence of a key",
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~3.7"
     },
     "license": "MIT",
     "authors": [
