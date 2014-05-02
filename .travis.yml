@@ -1,0 +1,18 @@
+language: php
+
+php:
+    - "5.6"
+    - "5.5"
+    - "5.4"
+    - "5.3"
+
+env:
+    - PHPUNIT_VERSION='3.7.*'
+    - PHPUNIT_VERSION='4.0.*'
+
+before_script:
+    - composer require --no-update phpunit/phpunit=$PHPUNIT_VERSION
+    - composer install --prefer-source
+
+script:
+    - vendor/bin/phpunit
