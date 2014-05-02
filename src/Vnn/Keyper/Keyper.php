@@ -35,6 +35,7 @@ class Keyper
         if ($args) {
             call_user_func_array($fn, $args);
         }
+        return $this;
     }
 
     /**
