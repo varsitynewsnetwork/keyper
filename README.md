@@ -1,5 +1,6 @@
 Keyper
 ======
+[![Build Status](https://secure.travis-ci.org/varsitynewsnetwork/keyper.png?branch=master)](https://travis-ci.org/varsitynewsnetwork/keyper)
 
 > Do things when an array has a key
 
