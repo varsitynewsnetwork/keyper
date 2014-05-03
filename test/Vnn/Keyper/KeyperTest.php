@@ -117,4 +117,16 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
         });
         $this->assertEquals('brian scaturro', $called);
     }
+
+    public function test_multiple_functions_do_not_break_when_values_not_present()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when(['nope.first', 'nope.last'], function($whole) use (&$called) {
+            $called = $whole;
+        }, function($first, $last) {
+            return $first . ' ' . $last;
+        });
+        $this->assertFalse($called);
+    }
 }

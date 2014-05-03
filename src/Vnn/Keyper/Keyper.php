@@ -34,7 +34,7 @@ class Keyper
     public function when($key, callable $fn)
     {
         $args = $this->getArgs($key);
-        if ($args) {
+        if ($this->canExecute($args)) {
             $funcs = array_slice(func_get_args(), 1);
             $result = $args;
             while ($fn = array_pop($funcs)) {
@@ -67,6 +67,19 @@ class Keyper
         }
 
         return $values;
+    }
+
+    /**
+     * Check if at least one non null value exists in args
+     *
+     * @param array $args
+     * @return bool
+     */
+    protected function canExecute(array $args)
+    {
+        return count(array_filter($args, function($arg) {
+            return !is_null($arg);
+        })) > 0;
     }
 
     /**
