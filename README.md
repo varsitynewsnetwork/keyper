@@ -35,9 +35,19 @@ $keyper->when('nested.three.four', function($value) {
 
 //do something with multiple keys
 $keyper->when(['nested.one', 'nested.two'], function($one, $two) {
-    //$one = 1
-    //$two = 2;
+    //$one == 1
+    //$two == 2
     print $one + $two;
+});
+
+//compose several functions
+$keyper->when(['nested.one', 'nested.two'], function($sum) {
+    //$sum == 3
+    print $sum;
+}, function($one, $two) {
+    //$one == 1
+    //$two == 2
+    return $one + $two; //this result gets passed to the function using $sum
 });
 ```
 

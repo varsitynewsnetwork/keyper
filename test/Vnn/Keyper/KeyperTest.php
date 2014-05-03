@@ -105,4 +105,16 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
         });
         $this->assertEquals('fakeout', $called);
     }
+
+    public function test_multiple_functions_compose_into_single_function()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when(['name.first', 'name.last'], function($whole) use (&$called) {
+            $called = $whole;
+        }, function($first, $last) {
+            return $first . ' ' . $last;
+        });
+        $this->assertEquals('brian scaturro', $called);
+    }
 }

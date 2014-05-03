@@ -23,7 +23,9 @@ class Keyper
     }
 
     /**
-     * Execute callable when an array key exists
+     * Execute callables when an array key exists. Takes one or more
+     * callable functions and executes them right to left passing the result
+     * of each function to the function on its left
      *
      * @param $key
      * @param callable $fn
@@ -33,7 +35,11 @@ class Keyper
     {
         $args = $this->getArgs($key);
         if ($args) {
-            call_user_func_array($fn, $args);
+            $funcs = array_slice(func_get_args(), 1);
+            $result = $args;
+            while ($fn = array_pop($funcs)) {
+                $result = [call_user_func_array($fn, $result)];
+            }
         }
         return $this;
     }
