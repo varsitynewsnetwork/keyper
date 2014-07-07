@@ -2,18 +2,22 @@
     "name": "vnn/keyper",
     "description": "Do things based on the presence of a key",
     "keywords": ["array", "function"],
-    "require-dev": {
-        "phpunit/phpunit": "~3.7"
-    },
     "license": "MIT",
     "authors": [
         {
             "name": "Brian Scaturro",
             "email": "scaturrob@gmail.com"
+        },
+        {
+            "name": "Austin Morris",
+            "email": "austin.morris@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~3.7"
     },
     "autoload": {
         "psr-0" : {

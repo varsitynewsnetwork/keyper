@@ -1,7 +1,14 @@
 <?php
+
 namespace Vnn\Keyper;
 
-class KeyperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit_Framework_TestCase;
+
+/**
+ * Class KeyperTest
+ * @package Vnn\Keyper
+ */
+class KeyperTest extends PHPUnit_Framework_TestCase
 {
     protected $data = [
         'key1' => 'hello',
@@ -29,7 +36,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = new Keyper($this->data);
         $called = false;
-        $keyper->when('key1', function($value) use (&$called) {
+        $keyper->when('key1', function ($value) use (&$called) {
             $called = $value;
         });
         $this->assertEquals('hello', $called);
@@ -39,7 +46,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when('key2', function($value) use (&$called) {
+        $keyper->when('key2', function ($value) use (&$called) {
             $called = true;
         });
         $this->assertFalse($called);
@@ -49,7 +56,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when('nested.one', function($value) use (&$called) {
+        $keyper->when('nested.one', function ($value) use (&$called) {
             $called = $value;
         });
         $this->assertEquals(1, $called);
@@ -59,7 +66,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when('nested.three.four', function($value) use (&$called) {
+        $keyper->when('nested.three.four', function ($value) use (&$called) {
             $called = $value;
         });
         $this->assertEquals(5, $called);
@@ -69,7 +76,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when(['name.first', 'name.last'], function($first, $last) use (&$called) {
+        $keyper->when(['name.first', 'name.last'], function ($first, $last) use (&$called) {
             $called = "$first $last";
         });
         $this->assertEquals('brian scaturro', $called);
@@ -79,7 +86,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when(['key1', 'name.last'], function($first, $second) use (&$called) {
+        $keyper->when(['key1', 'name.last'], function ($first, $second) use (&$called) {
             $called = "$first $second";
         });
         $this->assertEquals('hello scaturro', $called);
@@ -90,7 +97,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when(['incompleteName.first', 'incompleteName.last'], function($first, $last) use (&$called) {
+        $keyper->when(['incompleteName.first', 'incompleteName.last'], function ($first, $last) use (&$called) {
             $called = trim("$first $last");
         });
         $this->assertEquals('austin', $called);
@@ -100,7 +107,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when('key3.nested', function($value) use (&$called) {
+        $keyper->when('key3.nested', function ($value) use (&$called) {
             $called = $value;
         });
         $this->assertEquals('fakeout', $called);
@@ -110,7 +117,7 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when(['name.first', 'name.last'], function($whole) use (&$called) {
+        $keyper->when(['name.first', 'name.last'], function ($whole) use (&$called) {
             $called = $whole;
         }, function($first, $last) {
             return $first . ' ' . $last;
@@ -122,9 +129,9 @@ class KeyperTest extends \PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $called = false;
-        $keyper->when(['nope.first', 'nope.last'], function($whole) use (&$called) {
+        $keyper->when(['nope.first', 'nope.last'], function ($whole) use (&$called) {
             $called = $whole;
-        }, function($first, $last) {
+        }, function ($first, $last) {
             return $first . ' ' . $last;
         });
         $this->assertFalse($called);

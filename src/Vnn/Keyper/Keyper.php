@@ -1,6 +1,11 @@
 <?php
+
 namespace Vnn\Keyper;
 
+/**
+ * Class Keyper
+ * @package Vnn\Keyper
+ */
 class Keyper
 {
     /**
@@ -23,11 +28,22 @@ class Keyper
     }
 
     /**
-     * Execute callables when an array key exists. Takes one or more
-     * callable functions and executes them right to left passing the result
-     * of each function to the function on its left
+     * Create a new Keyper instance.
      *
-     * @param $key
+     * @param array $array
+     * @return static
+     */
+    public static function create(array $array)
+    {
+        $keyper = new static($array);
+        return $keyper;
+    }
+
+    /**
+     * Execute callables when an array key exists. Takes one or more callable functions and executes them right to
+     * left passing the result of each function to the function on its left.
+     *
+     * @param mixed $key
      * @param callable $fn
      * @return $this
      */
@@ -45,11 +61,12 @@ class Keyper
     }
 
     /**
-     * @param $key
+     * @param mixed $key
      * @param array $values
      * @return array
      */
-    protected function getArgs($key, &$values = []) {
+    protected function getArgs($key, &$values = [])
+    {
 
         if (is_array($key)) {
             foreach ($key as $k) {
@@ -70,20 +87,20 @@ class Keyper
     }
 
     /**
-     * Check if at least one non null value exists in args
+     * Check if at least one non null value exists in args.
      *
      * @param array $args
      * @return bool
      */
     protected function canExecute(array $args)
     {
-        return count(array_filter($args, function($arg) {
+        return count(array_filter($args, function ($arg) {
             return !is_null($arg);
         })) > 0;
     }
 
     /**
-     * @param $key
+     * @param mixed $key
      * @return null
      */
     protected function getValueFromArray($key)
@@ -99,11 +116,5 @@ class Keyper
             $data = $value;
         }
         return $value;
-    }
-
-    public static function create(array $array)
-    {
-        $keyper = new static($array);
-        return $keyper;
     }
 }

@@ -1,8 +1,8 @@
 <?php
-if(!defined('DS'))
+
+if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
+}
 
-$vendor = dirname(__DIR__) . DS . 'vendor';
-$loader = include $vendor . DS . 'autoload.php';
-
+$loader = require_once dirname(__DIR__) . DS . 'vendor' . DS . 'autoload.php';
 $loader->add('Vnn', __DIR__);
