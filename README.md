@@ -49,6 +49,13 @@ $keyper->when(['nested.one', 'nested.two'], function($sum) {
     //$two == 2
     return $one + $two; //this result gets passed to the function using $sum
 });
+
+//if you need all the specified keys to be present, use whenAll
+$keyper->whenAll(['nested.one', 'nested.two'], function($one, $two) {
+    //$one == 1
+    //$two == 2
+    print $one + $two;
+});
 ```
 
 Running tests
