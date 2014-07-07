@@ -60,6 +60,18 @@ class Keyper
         return $this;
     }
 
+
+    public function whenAll(array $key, callable $fn)
+    {
+        $args = array_filter($this->getArgs($key));
+
+        if (count($key) == count($args)) {
+            return $this->when($key, $fn);
+        }
+
+        return $this;
+    }
+
     /**
      * @param mixed $key
      * @param array $values

@@ -103,6 +103,28 @@ class KeyperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('austin', $called);
     }
 
+    public function test_whenAll_does_not_execute_for_array_of_keys_when_one_is_missing()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->whenAll(['incompleteName.first', 'incompleteName.last'], function ($first, $last) use (&$called) {
+            $called = trim("$first $last");
+        });
+
+        $this->assertFalse($called);
+    }
+
+    public function test_whenAll_does_execute_for_array_of_nested_keys_when_none_are_missing()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->whenAll(['key1', 'nested.three.four'], function ($first, $last) use (&$called) {
+            $called = trim("$first $last");
+        });
+
+        $this->assertEquals('hello 5', $called);
+    }
+
     public function test_when_prefers_literal_key()
     {
         $keyper = Keyper::create($this->data);
