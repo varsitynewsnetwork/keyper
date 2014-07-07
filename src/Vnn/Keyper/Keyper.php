@@ -49,24 +49,22 @@ class Keyper
      */
     public function when($key, callable $fn)
     {
-        $args = $this->getArgs($key);
-        if ($this->canExecute($args)) {
-            $funcs = array_slice(func_get_args(), 1);
-            $result = $args;
-            while ($fn = array_pop($funcs)) {
-                $result = [call_user_func_array($fn, $result)];
-            }
-        }
-        return $this;
+        return $this->execute($this->getArgs($key), func_get_args());
     }
 
-
+    /**
+     * Execute callables when an all of the provided array keys exists. Takes one or more callable functions and
+     * executes them right to left passing the result of each function to the function on its left.
+     *
+     * @param array $key
+     * @param callable $fn
+     * @return $this
+     */
     public function whenAll(array $key, callable $fn)
     {
         $args = array_filter($this->getArgs($key));
-
         if (count($key) == count($args)) {
-            return $this->when($key, $fn);
+            return $this->execute($args, func_get_args());
         }
 
         return $this;
@@ -128,5 +126,23 @@ class Keyper
             $data = $value;
         }
         return $value;
+    }
+
+    /**
+     * @param $args
+     * @param $funcArgs
+     * @return $this
+     */
+    protected function execute($args, $funcArgs)
+    {
+        if ($this->canExecute($args)) {
+            $funcs = array_slice($funcArgs, 1);
+            $result = $args;
+            while ($fn = array_pop($funcs)) {
+                $result = [call_user_func_array($fn, $result)];
+            }
+        }
+
+        return $this;
     }
 }
