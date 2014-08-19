@@ -14,11 +14,6 @@ class Keyper
     protected $array = [];
 
     /**
-     * @var string
-     */
-    private static $dotNotation = '/[.]/';
-
-    /**
      * Constructor
      * @param array $array
      */
@@ -89,7 +84,7 @@ class Keyper
             $values[] = $this->array[$key];
         }
 
-        if (preg_match(static::$dotNotation, $key)) {
+        if (strpos($key, '.') !== false) {
             $values[] = $this->getValueFromArray($key);
         }
 
