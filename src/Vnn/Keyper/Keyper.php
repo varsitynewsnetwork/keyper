@@ -66,6 +66,19 @@ class Keyper
     }
 
     /**
+     * Return a value for the key.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function get($key)
+    {
+        $value = $this->getArgs($key);
+
+        return $value ? $value[0] : null;
+    }
+
+    /**
      * @param mixed $key
      * @param array $values
      * @return array

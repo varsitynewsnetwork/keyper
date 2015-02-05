@@ -158,4 +158,10 @@ class KeyperTest extends PHPUnit_Framework_TestCase
         });
         $this->assertFalse($called);
     }
+
+    public function test_get_method()
+    {
+        $keyper = Keyper::create($this->data);
+        $this->assertEquals(5, $keyper->get('nested.three.four'));
+    }
 }
