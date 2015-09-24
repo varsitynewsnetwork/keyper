@@ -85,7 +85,6 @@ class Keyper
      */
     protected function getArgs($key, &$values = [])
     {
-
         if (is_array($key)) {
             foreach ($key as $k) {
                 $this->getArgs($k, $values);
@@ -93,7 +92,7 @@ class Keyper
             return $values;
         }
 
-        if (isset($this->array[$key])) {
+        if (array_key_exists($key, $this->array)) {
             $values[] = $this->array[$key];
         }
 

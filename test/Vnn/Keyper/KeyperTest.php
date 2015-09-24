@@ -29,7 +29,8 @@ class KeyperTest extends PHPUnit_Framework_TestCase
         'key3.nested' => 'fakeout',
         'key3' => [
             'nested' => 'value'
-        ]
+        ],
+        'key99' => null
     ];
 
     public function test_callable_executes_when_array_key_exists()
@@ -163,5 +164,15 @@ class KeyperTest extends PHPUnit_Framework_TestCase
     {
         $keyper = Keyper::create($this->data);
         $this->assertEquals(5, $keyper->get('nested.three.four'));
+    }
+
+    public function test_when_works_with_null_values()
+    {
+        $keyper = Keyper::create($this->data);
+        $called = false;
+        $keyper->when('key99', function () use (&$called) {
+            $called = true;
+        });
+        $this->assertFalse($called);
     }
 }
